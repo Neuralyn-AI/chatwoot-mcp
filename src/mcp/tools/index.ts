@@ -13,6 +13,8 @@ import { findUntranslatedCategoriesTool } from './find-untranslated-categories'
 import { findUntranslatedArticlesTool } from './find-untranslated-articles'
 import { suggestCategoryAssociationsTool } from './suggest-category-associations'
 import { associateCategoriesTool } from './associate-categories'
+import { listArticlesTool } from './list-articles'
+import { getArticleTool } from './get-article'
 
 export interface ToolContext {
   chatwoot: ChatwootClient
@@ -36,6 +38,8 @@ export {
   findUntranslatedArticlesTool,
   suggestCategoryAssociationsTool,
   associateCategoriesTool,
+  listArticlesTool,
+  getArticleTool,
 }
 
 export const tools: ToolDefinition[] = [
@@ -52,4 +56,6 @@ export const tools: ToolDefinition[] = [
   findUntranslatedArticlesTool,
   suggestCategoryAssociationsTool,
   associateCategoriesTool,
+  listArticlesTool,
+  getArticleTool,
 ]
