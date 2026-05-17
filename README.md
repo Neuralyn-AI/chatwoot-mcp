@@ -68,6 +68,7 @@ claude mcp add --transport http chatwoot \
 | `chatwoot_get_article` | Fetch a single article by id with full content. |
 | `chatwoot_create_article` | Create a Help Center article in a single locale. |
 | `chatwoot_update_article` | Patch an article by id; updates only the fields you pass. |
+| `chatwoot_upload_attachment` | Upload an image/file (base64 bytes or external URL) and return its file_url for embedding. |
 
 ## Development
 
