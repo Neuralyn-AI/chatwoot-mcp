@@ -7,3 +7,7 @@ dist/
 coverage/
 *.log
 docs/
+
+# IDE / Claude Code session artefacts
+*.code-workspace
+.claude/
