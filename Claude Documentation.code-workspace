@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../claude-code-helpdesk-writer-skill"
+		},
+		{
+			"path": "../claude-skills"
+		}
+	],
+	"settings": {}
+}

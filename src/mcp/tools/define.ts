@@ -43,11 +43,11 @@ export function defineTool<TInput extends ZodTypeAny, TOutput>(
 function formatError(e: Error & { status?: number; body?: unknown; url?: string }): string {
   if (e.name === 'ChatwootApiError') {
     if (e.status === 401) {
-      return 'Credenciais inválidas — verifique CHATWOOT_API_TOKEN e CHATWOOT_ACCOUNT_ID.'
+      return 'Invalid credentials — check CHATWOOT_API_TOKEN and CHATWOOT_ACCOUNT_ID.'
     }
-    return `Chatwoot ${e.status} em ${e.url}: ${
+    return `Chatwoot ${e.status} at ${e.url}: ${
       typeof e.body === 'string' ? e.body : JSON.stringify(e.body)
     }`
   }
-  return `Erro: ${e.message}`
+  return `Error: ${e.message}`
 }

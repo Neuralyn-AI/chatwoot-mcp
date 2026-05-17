@@ -12,7 +12,7 @@ describe('chatwoot_associate_categories (patch strategy)', () => {
       const i = init as Call['init']
       calls.push({ path, init: i })
       if (path === '/portals/docs/categories?locale=pt_BR') {
-        return { payload: [{ id: 99, slug: 'primeiros-passos', name: 'X', locale: 'pt_BR' }] }
+        return { payload: [{ id: 99, slug: 'first-steps', name: 'X', locale: 'pt_BR' }] }
       }
       if (path === '/portals/docs/categories?locale=es') {
         return { payload: [{ id: 100, slug: 'comenzar', name: 'X', locale: 'es' }] }
@@ -29,7 +29,7 @@ describe('chatwoot_associate_categories (patch strategy)', () => {
         portal_slug: 'docs',
         target_slug: 'getting-started',
         sources: [
-          { locale: 'pt_BR', current_slug: 'primeiros-passos' },
+          { locale: 'pt_BR', current_slug: 'first-steps' },
           { locale: 'es', current_slug: 'comenzar' },
         ],
       },

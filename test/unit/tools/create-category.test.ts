@@ -37,7 +37,7 @@ describe('chatwoot_create_category', () => {
       {
         portal_slug: 'docs',
         slug: 'getting-started',
-        names_by_locale: { en: 'Getting Started', pt_BR: 'Primeiros Passos' },
+        names_by_locale: { en: 'Getting Started', pt_BR: 'First Steps' },
       },
     )
 
@@ -45,7 +45,7 @@ describe('chatwoot_create_category', () => {
     expect(r.created).toHaveLength(3)
     const byLocale = Object.fromEntries(r.created.map((c) => [c.locale, c]))
     expect(byLocale.en!.name).toBe('Getting Started')
-    expect(byLocale.pt_BR!.name).toBe('Primeiros Passos')
+    expect(byLocale.pt_BR!.name).toBe('First Steps')
     expect(byLocale.es!.name).toBe('Getting Started')
   })
 

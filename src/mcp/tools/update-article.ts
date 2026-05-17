@@ -4,37 +4,25 @@ import { updateArticle, type ArticleRaw } from '../../chatwoot/articles'
 
 const STATUS_TO_INT = { draft: 0, published: 1, archived: 2 } as const
 
-const inputSchema = z
-  .object({
-    portal_slug: z.string().min(1),
-    id: z.number().int().positive(),
-    title: z.string().min(1).optional(),
-    slug: z.string().min(1).optional(),
-    content: z.string().min(1).optional(),
-    description: z.string().optional(),
-    category_id: z.number().int().positive().optional(),
-    locale: z.string().optional(),
-    status: z.enum(['draft', 'published', 'archived']).optional(),
-    author_id: z.number().int().positive().optional(),
-    associated_article_id: z.number().int().positive().optional(),
-    meta: z.record(z.string(), z.unknown()).optional(),
-    position: z.number().int().optional(),
-  })
-  .refine(
-    (v) =>
-      v.title !== undefined ||
-      v.slug !== undefined ||
-      v.content !== undefined ||
-      v.description !== undefined ||
-      v.category_id !== undefined ||
-      v.locale !== undefined ||
-      v.status !== undefined ||
-      v.author_id !== undefined ||
-      v.associated_article_id !== undefined ||
-      v.meta !== undefined ||
-      v.position !== undefined,
-    { message: 'At least one field to update must be provided.' },
-  )
+// NOTE: cross-field validation ("at least one patch field provided") lives in
+// run() rather than as a .refine() on the schema. Wrapping z.object() with
+// .refine() produces a ZodEffects, which @modelcontextprotocol/sdk's
+// registerTool fails to register at server boot, crashing every /mcp request.
+const inputSchema = z.object({
+  portal_slug: z.string().min(1),
+  id: z.number().int().positive(),
+  title: z.string().min(1).optional(),
+  slug: z.string().min(1).optional(),
+  content: z.string().min(1).optional(),
+  description: z.string().optional(),
+  category_id: z.number().int().positive().optional(),
+  locale: z.string().optional(),
+  status: z.enum(['draft', 'published', 'archived']).optional(),
+  author_id: z.number().int().positive().optional(),
+  associated_article_id: z.number().int().positive().optional(),
+  meta: z.record(z.string(), z.unknown()).optional(),
+  position: z.number().int().optional(),
+})
 
 export const updateArticleTool = defineTool({
   name: 'chatwoot_update_article',
@@ -42,6 +30,22 @@ export const updateArticleTool = defineTool({
     'Patch a Help Center article by id. Only the fields you pass are updated. Status is a string enum (draft|published|archived) mapped to Chatwoot\'s integer field. To link this article as a translation of another, pass associated_article_id.',
   inputSchema,
   async run(ctx, input) {
+    const hasAnyPatch =
+      input.title !== undefined ||
+      input.slug !== undefined ||
+      input.content !== undefined ||
+      input.description !== undefined ||
+      input.category_id !== undefined ||
+      input.locale !== undefined ||
+      input.status !== undefined ||
+      input.author_id !== undefined ||
+      input.associated_article_id !== undefined ||
+      input.meta !== undefined ||
+      input.position !== undefined
+    if (!hasAnyPatch) {
+      throw new Error('At least one field to update must be provided.')
+    }
+
     const patch: Partial<ArticleRaw> & {
       title?: string
       content?: string
