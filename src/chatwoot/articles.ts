@@ -44,3 +44,15 @@ export async function listArticles(
   }
   return out
 }
+
+export async function updateArticle(
+  client: ChatwootClient,
+  portalSlug: string,
+  id: number,
+  patch: Partial<ArticleRaw>,
+): Promise<ArticleRaw> {
+  return client.request<ArticleRaw>(
+    `/portals/${encodeURIComponent(portalSlug)}/articles/${id}`,
+    { method: 'PATCH', body: { article: patch } },
+  )
+}
