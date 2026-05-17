@@ -108,3 +108,14 @@ export async function removePortalLogo(
     body: { portal: { logo: null } },
   })
 }
+
+export async function updatePortal(
+  client: ChatwootClient,
+  slug: string,
+  patch: { config?: { allowed_locales?: string[]; default_locale?: string } },
+): Promise<ChatwootPortalRaw> {
+  return client.request<ChatwootPortalRaw>(`/portals/${encodeURIComponent(slug)}`, {
+    method: 'PATCH',
+    body: { portal: patch },
+  })
+}
