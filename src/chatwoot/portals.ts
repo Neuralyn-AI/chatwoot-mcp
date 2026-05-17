@@ -49,3 +49,35 @@ export function toPortalSummary(p: ChatwootPortalRaw): PortalSummary {
     default_locale: p.config?.default_locale ?? '',
   }
 }
+
+export interface CreatePortalInput {
+  name: string
+  slug: string
+  color?: string
+  homepage_link?: string
+  page_title?: string
+  header_text?: string
+  default_locale?: string
+}
+
+export async function createPortal(
+  client: ChatwootClient,
+  input: CreatePortalInput,
+): Promise<ChatwootPortalRaw> {
+  const locale = input.default_locale ?? 'en'
+  const payload = {
+    portal: {
+      name: input.name,
+      slug: input.slug,
+      color: input.color,
+      homepage_link: input.homepage_link,
+      page_title: input.page_title,
+      header_text: input.header_text,
+      config: {
+        default_locale: locale,
+        allowed_locales: [locale],
+      },
+    },
+  }
+  return client.request<ChatwootPortalRaw>('/portals', { method: 'POST', body: payload })
+}
