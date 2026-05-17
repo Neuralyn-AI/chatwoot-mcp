@@ -82,7 +82,9 @@ export async function createPortal(
   return client.request<ChatwootPortalRaw>('/portals', { method: 'POST', body: payload })
 }
 
-// CONFIRM against ADR 0001 when investigation runs against real Chatwoot.
+// ADR 0001: Chatwoot accepts both `logo` and `portal[logo]` as multipart
+// field names; we use the simpler `logo` form. The API does not surface a
+// `logo` field in responses, so success is signalled by HTTP 200 only.
 const LOGO_FIELD = 'logo'
 
 export async function uploadPortalLogo(
@@ -102,7 +104,6 @@ export async function removePortalLogo(
   client: ChatwootClient,
   slug: string,
 ): Promise<ChatwootPortalRaw> {
-  // CONFIRM against ADR 0001 when investigation runs against real Chatwoot.
   return client.request<ChatwootPortalRaw>(`/portals/${encodeURIComponent(slug)}`, {
     method: 'PATCH',
     body: { portal: { logo: null } },

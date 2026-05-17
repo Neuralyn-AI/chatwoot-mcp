@@ -79,6 +79,10 @@ pnpm typecheck
 
 See `docs/adr/` for investigation outcomes (logo upload, translation key, category rename strategy, public search).
 
+## Roadmap
+
+- `chatwoot_search_articles` — wrap the public `/hc/{portal}/{locale}/articles.json` search endpoint mapped in ADR 0004.
+
 ## License
 
 MIT — see `LICENSE`.

@@ -8,7 +8,10 @@ import {
 } from '../../chatwoot/categories'
 import { listArticles, updateArticle } from '../../chatwoot/articles'
 
-// CONFIRM against ADR 0003 when investigation runs against real Chatwoot.
+// ADR 0003: PATCH on /categories/{id} with a new slug is accepted and the
+// article-category links are preserved through the rename. The fallback
+// strategies remain in this file for forward-compatibility with future
+// Chatwoot versions that may reject slug PATCHes.
 const STRATEGY: 'patch' | 'delete-recreate' | 'move-delete-recreate' = 'patch'
 
 interface AssociateResult {

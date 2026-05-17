@@ -3,15 +3,14 @@ import { defineTool } from './define'
 import { getPortal, toPortalSummary } from '../../chatwoot/portals'
 import { listArticles, type ArticleRaw } from '../../chatwoot/articles'
 import { missing as missingLocales } from '../../lib/locale'
+import { stripTimestampPrefix } from '../../lib/slug'
 
-// CONFIRM against ADR 0002 when investigation runs against real Chatwoot.
-const TRANSLATION_KEY_FIELD = 'associated_article_id' as const
+// ADR 0002: associated_article_id is writable but not serialized by this
+// Chatwoot version, so we derive the key from the slug instead.
+const TRANSLATION_KEY_FIELD = 'slug' as const
 
 function keyOf(article: ArticleRaw): string {
-  if (TRANSLATION_KEY_FIELD === 'associated_article_id') {
-    return String(article.associated_article_id ?? article.id)
-  }
-  return article.slug
+  return stripTimestampPrefix(article.slug)
 }
 
 export const findUntranslatedArticlesTool = defineTool({
@@ -60,7 +59,7 @@ export const findUntranslatedArticlesTool = defineTool({
       .filter((g) => g.missing_in.length > 0)
 
     return {
-      translation_key_field: TRANSLATION_KEY_FIELD as 'associated_article_id' | 'slug',
+      translation_key_field: TRANSLATION_KEY_FIELD,
       groups: result,
     }
   },

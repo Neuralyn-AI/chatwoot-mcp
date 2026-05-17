@@ -51,9 +51,7 @@ describe('chatwoot_find_untranslated_articles', () => {
       { portal_slug: 'docs' },
     )
 
-    expect(r.translation_key_field).toBe(
-      'associated_article_id' satisfies typeof r.translation_key_field,
-    )
+    expect(r.translation_key_field).toBe('slug' satisfies typeof r.translation_key_field)
 
     const groupB = r.groups.find((g) => g.articles.some((a) => a.slug === 'b'))!
     expect(groupB.present_in).toEqual(['en'])
