@@ -31,8 +31,8 @@ export class ChatwootClient {
     const url = this.buildUrl(path)
     const method = init.method ?? 'GET'
     const headers: Record<string, string> = {
-      api_access_token: this.opts.apiToken,
       ...this.normalizeHeaders(init.headers),
+      api_access_token: this.opts.apiToken,
     }
 
     let body: BodyInit | null | undefined
@@ -80,6 +80,7 @@ export class ChatwootClient {
       b instanceof FormData ||
       b instanceof Blob ||
       b instanceof ArrayBuffer ||
+      ArrayBuffer.isView(b) ||
       b instanceof URLSearchParams ||
       b instanceof ReadableStream
     )
@@ -87,7 +88,12 @@ export class ChatwootClient {
 
   private async parseBody(r: Response): Promise<unknown> {
     const ct = r.headers.get('content-type') ?? ''
-    if (ct.includes('application/json')) return r.json()
-    return r.text()
+    if (!ct.includes('application/json')) return r.text()
+    const text = await r.text()
+    try {
+      return JSON.parse(text)
+    } catch {
+      return text
+    }
   }
 }

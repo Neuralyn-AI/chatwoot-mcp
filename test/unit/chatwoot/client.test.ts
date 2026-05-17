@@ -124,4 +124,28 @@ describe('ChatwootClient.request', () => {
     expect((init as RequestInit).body).toBe(fd)
     expect((init as RequestInit).headers).not.toHaveProperty('content-type')
   })
+
+  it('wraps malformed JSON (with application/json content-type) in ChatwootApiError, not SyntaxError', async () => {
+    fetchMock.mockResolvedValue(
+      new Response('not json {{', {
+        status: 500,
+        headers: { 'content-type': 'application/json' },
+      }),
+    )
+
+    await expect(baseClient().request('/portals')).rejects.toMatchObject({
+      name: 'ChatwootApiError',
+      status: 500,
+      body: 'not json {{',
+    })
+  })
+
+  it('client api_access_token always wins over caller-supplied header', async () => {
+    fetchMock.mockResolvedValue(new Response('{}', { status: 200 }))
+    await baseClient().request('/portals', {
+      headers: { api_access_token: 'attacker' },
+    })
+    const [, init] = fetchMock.mock.calls[0]!
+    expect((init as RequestInit).headers).toMatchObject({ api_access_token: 'tok' })
+  })
 })
