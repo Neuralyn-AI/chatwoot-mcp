@@ -64,6 +64,8 @@ claude mcp add --transport http chatwoot \
 | `chatwoot_find_untranslated_articles` | Articles missing translations in some locales. |
 | `chatwoot_suggest_category_associations` | Propose cross-locale slug alignment candidates. |
 | `chatwoot_associate_categories` | Apply a confirmed slug alignment. |
+| `chatwoot_list_articles` | List articles in a portal, optionally filtered by locale and category. |
+| `chatwoot_get_article` | Fetch a single article by id with full content. |
 
 ## Development
 

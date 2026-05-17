@@ -11,6 +11,28 @@ export interface ArticleRaw {
   meta?: Record<string, unknown>
 }
 
+/**
+ * Full article shape returned by GET /portals/:slug/articles/:id. Differs
+ * from `ArticleRaw` (which models the list-endpoint row): includes `content`
+ * and a nested `category` object, but does NOT include `locale`,
+ * `category_id`, or `associated_article_id` at the top level. See ADR 0002.
+ */
+export interface ArticleDetailRaw {
+  id: number
+  slug: string
+  title: string
+  content: string
+  description?: string | null
+  status?: number
+  position?: number
+  account_id?: number
+  updated_at?: number
+  meta?: Record<string, unknown>
+  category?: { id: number; slug: string; locale: string } | null
+  views?: number
+  author?: { id: number; name?: string; email?: string } | null
+}
+
 export interface ListArticlesQuery {
   portal_slug: string
   locale?: string
@@ -43,6 +65,17 @@ export async function listArticles(
     if (page > 200) break
   }
   return out
+}
+
+export async function getArticle(
+  client: ChatwootClient,
+  portalSlug: string,
+  id: number,
+): Promise<ArticleDetailRaw> {
+  const res = await client.request<{ payload: ArticleDetailRaw }>(
+    `/portals/${encodeURIComponent(portalSlug)}/articles/${id}`,
+  )
+  return res.payload
 }
 
 export async function updateArticle(
