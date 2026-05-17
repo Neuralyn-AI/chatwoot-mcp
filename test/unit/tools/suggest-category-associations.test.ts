@@ -35,7 +35,7 @@ describe('chatwoot_suggest_category_associations', () => {
           payload: [
             {
               id: 2,
-              slug: 'primeiros-passos',
+              slug: 'first-steps',
               name: 'Getting Started',
               locale: 'pt_BR',
               position: 1,

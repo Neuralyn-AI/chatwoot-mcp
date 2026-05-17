@@ -60,29 +60,42 @@ describe('chatwoot_upload_attachment', () => {
     expect(r.blob_id).toBe('sig999')
   })
 
-  it('rejects when both external_url and data_base64 are provided', () => {
-    const parsed = uploadAttachmentTool.inputSchema.safeParse({
-      external_url: 'https://x/img.png',
-      data_base64: 'aGkh',
-      filename: 'a.png',
-      content_type: 'image/png',
-    })
-    expect(parsed.success).toBe(false)
+  it('throws at run() when both external_url and data_base64 are provided', async () => {
+    const c = new ChatwootClient({ baseUrl: 'x', apiToken: 't', accountId: '1' })
+    const spy = vi.spyOn(c, 'request')
+    await expect(
+      uploadAttachmentTool.run(
+        { chatwoot: c },
+        {
+          external_url: 'https://x/img.png',
+          data_base64: 'aGkh',
+          filename: 'a.png',
+          content_type: 'image/png',
+        },
+      ),
+    ).rejects.toThrow(/exactly one/i)
+    expect(spy).not.toHaveBeenCalled()
   })
 
-  it('rejects when neither is provided', () => {
-    const parsed = uploadAttachmentTool.inputSchema.safeParse({})
-    expect(parsed.success).toBe(false)
+  it('throws at run() when neither is provided', async () => {
+    const c = new ChatwootClient({ baseUrl: 'x', apiToken: 't', accountId: '1' })
+    const spy = vi.spyOn(c, 'request')
+    await expect(
+      uploadAttachmentTool.run({ chatwoot: c }, {}),
+    ).rejects.toThrow(/exactly one/i)
+    expect(spy).not.toHaveBeenCalled()
   })
 
-  it('rejects when data_base64 is provided without filename and content_type', () => {
-    const parsed = uploadAttachmentTool.inputSchema.safeParse({
-      data_base64: 'aGkh',
-    })
-    expect(parsed.success).toBe(false)
+  it('throws at run() when data_base64 is provided without filename and content_type', async () => {
+    const c = new ChatwootClient({ baseUrl: 'x', apiToken: 't', accountId: '1' })
+    const spy = vi.spyOn(c, 'request')
+    await expect(
+      uploadAttachmentTool.run({ chatwoot: c }, { data_base64: 'aGkh' }),
+    ).rejects.toThrow(/exactly one/i)
+    expect(spy).not.toHaveBeenCalled()
   })
 
-  it('rejects when external_url is not a URL', () => {
+  it('rejects when external_url is not a URL via schema', () => {
     const parsed = uploadAttachmentTool.inputSchema.safeParse({
       external_url: 'not-a-url',
     })

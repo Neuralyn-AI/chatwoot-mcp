@@ -112,15 +112,16 @@ describe('chatwoot_update_article', () => {
     })
   })
 
-  it('rejects an update with no patch fields', () => {
-    const parsed = updateArticleTool.inputSchema.safeParse({
-      portal_slug: 'docs',
-      id: 1,
-    })
-    expect(parsed.success).toBe(false)
+  it('throws at run() when no patch fields are provided', async () => {
+    const c = new ChatwootClient({ baseUrl: 'x', apiToken: 't', accountId: '1' })
+    const spy = vi.spyOn(c, 'request')
+    await expect(
+      updateArticleTool.run({ chatwoot: c }, { portal_slug: 'docs', id: 1 }),
+    ).rejects.toThrow(/at least one field/i)
+    expect(spy).not.toHaveBeenCalled()
   })
 
-  it('rejects a non-positive id', () => {
+  it('rejects a non-positive id via schema', () => {
     const parsed = updateArticleTool.inputSchema.safeParse({
       portal_slug: 'docs',
       id: 0,

@@ -90,8 +90,8 @@ describe('chatwoot_create_article', () => {
       {
         portal_slug: 'docs',
         category_id: 1,
-        title: 'Como começar',
-        slug: 'como-comecar',
+        title: 'First Steps',
+        slug: 'first-steps',
         content: 'body',
         locale: 'pt_BR',
         description: 'short',
@@ -105,8 +105,8 @@ describe('chatwoot_create_article', () => {
 
     const body = spy.mock.calls[0]![1] as { body: { article: Record<string, unknown> } }
     expect(body.body.article).toMatchObject({
-      title: 'Como começar',
-      slug: 'como-comecar',
+      title: 'First Steps',
+      slug: 'first-steps',
       content: 'body',
       category_id: 1,
       locale: 'pt_BR',
