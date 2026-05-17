@@ -69,6 +69,7 @@ claude mcp add --transport http chatwoot \
 | `chatwoot_create_article` | Create a Help Center article in a single locale. |
 | `chatwoot_update_article` | Patch an article by id; updates only the fields you pass. |
 | `chatwoot_upload_attachment` | Upload an image/file (base64 bytes or external URL) and return its file_url for embedding. |
+| `chatwoot_delete_article` | Delete a Help Center article by id. Irreversible. |
 
 ## Development
 

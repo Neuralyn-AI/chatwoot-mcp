@@ -109,6 +109,17 @@ export async function getArticle(
   return res.payload
 }
 
+export async function deleteArticle(
+  client: ChatwootClient,
+  portalSlug: string,
+  id: number,
+): Promise<void> {
+  await client.request(
+    `/portals/${encodeURIComponent(portalSlug)}/articles/${id}`,
+    { method: 'DELETE' },
+  )
+}
+
 export async function updateArticle(
   client: ChatwootClient,
   portalSlug: string,
