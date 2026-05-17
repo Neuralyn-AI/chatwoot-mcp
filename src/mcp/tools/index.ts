@@ -17,6 +17,7 @@ import { listArticlesTool } from './list-articles'
 import { getArticleTool } from './get-article'
 import { createArticleTool } from './create-article'
 import { updateArticleTool } from './update-article'
+import { uploadAttachmentTool } from './upload-attachment'
 
 export interface ToolContext {
   chatwoot: ChatwootClient
@@ -44,6 +45,7 @@ export {
   getArticleTool,
   createArticleTool,
   updateArticleTool,
+  uploadAttachmentTool,
 }
 
 export const tools: ToolDefinition[] = [
@@ -64,4 +66,5 @@ export const tools: ToolDefinition[] = [
   getArticleTool,
   createArticleTool,
   updateArticleTool,
+  uploadAttachmentTool,
 ]
