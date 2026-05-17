@@ -21,12 +21,14 @@ describe('chatwoot_create_category', () => {
         }
         const body = (init as { body: { category: Record<string, unknown> } }).body.category
         return {
-          id: Math.floor(Math.random() * 1000),
-          slug: body.slug,
-          name: body.name,
-          description: body.description,
-          locale: body.locale,
-          position: body.position ?? 0,
+          payload: {
+            id: Math.floor(Math.random() * 1000),
+            slug: body.slug,
+            name: body.name,
+            description: body.description,
+            locale: body.locale,
+            position: body.position ?? 0,
+          },
         }
       })
 
@@ -63,7 +65,7 @@ describe('chatwoot_create_category', () => {
       }
       const body = (init as { body: { category: Record<string, unknown> } }).body.category
       if (body.locale === 'pt_BR') throw new Error('boom')
-      return { id: 1, slug: body.slug, name: body.name, locale: body.locale }
+      return { payload: { id: 1, slug: body.slug, name: body.name, locale: body.locale } }
     })
 
     const r = await createCategoryTool.run(

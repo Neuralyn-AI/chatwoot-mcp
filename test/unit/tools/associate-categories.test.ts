@@ -20,7 +20,7 @@ describe('chatwoot_associate_categories (patch strategy)', () => {
       if (path.startsWith('/portals/docs/articles')) {
         return { payload: [{ id: 1 }], meta: { current_page: 1, articles_count: 1 } }
       }
-      return { id: 99, slug: 'getting-started', name: 'X', locale: 'pt_BR' }
+      return { payload: { id: 99, slug: 'getting-started', name: 'X', locale: 'pt_BR' } }
     })
 
     const r = await associateCategoriesTool.run(

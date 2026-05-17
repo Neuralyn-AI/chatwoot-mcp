@@ -51,8 +51,9 @@ export async function updateArticle(
   id: number,
   patch: Partial<ArticleRaw>,
 ): Promise<ArticleRaw> {
-  return client.request<ArticleRaw>(
+  const res = await client.request<{ payload: ArticleRaw }>(
     `/portals/${encodeURIComponent(portalSlug)}/articles/${id}`,
     { method: 'PATCH', body: { article: patch } },
   )
+  return res.payload
 }

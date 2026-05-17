@@ -53,7 +53,7 @@ describe('chatwoot_add_portal_locale', () => {
       if (path === '/portals/docs/categories' && i?.method === 'POST') {
         const cat = (i.body as { category: { slug: string; name: string; locale: string } })
           .category
-        return { id: 99, slug: cat.slug, name: cat.name, locale: cat.locale }
+        return { payload: { id: 99, slug: cat.slug, name: cat.name, locale: cat.locale } }
       }
       throw new Error('unexpected path ' + path)
     })

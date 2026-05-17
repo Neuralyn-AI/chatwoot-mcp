@@ -59,10 +59,11 @@ export async function createCategory(
   portalSlug: string,
   input: CreateCategoryInput,
 ): Promise<CategoryRaw> {
-  return client.request<CategoryRaw>(
+  const res = await client.request<{ payload: CategoryRaw }>(
     `/portals/${encodeURIComponent(portalSlug)}/categories`,
     { method: 'POST', body: { category: input } },
   )
+  return res.payload
 }
 
 export async function deleteCategory(
@@ -82,8 +83,9 @@ export async function updateCategory(
   id: number,
   patch: Partial<CategoryRaw>,
 ): Promise<CategoryRaw> {
-  return client.request<CategoryRaw>(
+  const res = await client.request<{ payload: CategoryRaw }>(
     `/portals/${encodeURIComponent(portalSlug)}/categories/${id}`,
     { method: 'PATCH', body: { category: patch } },
   )
+  return res.payload
 }
