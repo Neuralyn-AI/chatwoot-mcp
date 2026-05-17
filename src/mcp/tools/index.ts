@@ -9,6 +9,7 @@ import { removePortalLogoTool } from './remove-portal-logo'
 import { listCategoriesTool } from './list-categories'
 import { createCategoryTool } from './create-category'
 import { addPortalLocaleTool } from './add-portal-locale'
+import { findUntranslatedCategoriesTool } from './find-untranslated-categories'
 
 export interface ToolContext {
   chatwoot: ChatwootClient
@@ -28,6 +29,7 @@ export {
   listCategoriesTool,
   createCategoryTool,
   addPortalLocaleTool,
+  findUntranslatedCategoriesTool,
 }
 
 export const tools: ToolDefinition[] = [
@@ -40,4 +42,5 @@ export const tools: ToolDefinition[] = [
   listCategoriesTool,
   createCategoryTool,
   addPortalLocaleTool,
+  findUntranslatedCategoriesTool,
 ]
