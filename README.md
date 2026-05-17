@@ -6,7 +6,7 @@ Single-tenant MCP server that exposes Chatwoot Help Center tools (portals, categ
 
 ## Deploy
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Neuralyn/chatwoot-mcp)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Neuralyn-AI/chatwoot-mcp)
 
 You will be prompted for:
 
