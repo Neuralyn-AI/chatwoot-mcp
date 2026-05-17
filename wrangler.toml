@@ -1,0 +1,10 @@
+name = "chatwoot-mcp"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+CHATWOOT_BASE_URL = "https://app.chatwoot.com"
+
+[observability]
+enabled = true

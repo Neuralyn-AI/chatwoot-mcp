@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "test": "vitest run --project=unit",
+    "test": "vitest run --project=unit --passWithNoTests",
     "test:watch": "vitest --project=unit",
-    "test:integration": "vitest run --project=integration",
+    "test:integration": "vitest run --project=integration --passWithNoTests",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit"
   },
