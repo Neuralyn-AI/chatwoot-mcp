@@ -67,6 +67,37 @@ export async function listArticles(
   return out
 }
 
+/**
+ * Body for POST /portals/:slug/articles. `slug` is the stem; the server
+ * prepends a `<timestamp>-` prefix and returns the prefixed form. `status`
+ * is the integer Chatwoot enum (0 draft, 1 published, 2 archived).
+ */
+export interface CreateArticleBody {
+  title: string
+  slug: string
+  content: string
+  category_id: number
+  status: number
+  locale?: string
+  description?: string
+  author_id?: number
+  associated_article_id?: number
+  meta?: Record<string, unknown>
+  position?: number
+}
+
+export async function createArticle(
+  client: ChatwootClient,
+  portalSlug: string,
+  body: CreateArticleBody,
+): Promise<ArticleRaw> {
+  const res = await client.request<{ payload: ArticleRaw }>(
+    `/portals/${encodeURIComponent(portalSlug)}/articles`,
+    { method: 'POST', body: { article: body } },
+  )
+  return res.payload
+}
+
 export async function getArticle(
   client: ChatwootClient,
   portalSlug: string,
