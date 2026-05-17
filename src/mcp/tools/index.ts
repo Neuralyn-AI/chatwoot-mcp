@@ -15,6 +15,7 @@ import { suggestCategoryAssociationsTool } from './suggest-category-associations
 import { associateCategoriesTool } from './associate-categories'
 import { listArticlesTool } from './list-articles'
 import { getArticleTool } from './get-article'
+import { createArticleTool } from './create-article'
 
 export interface ToolContext {
   chatwoot: ChatwootClient
@@ -40,6 +41,7 @@ export {
   associateCategoriesTool,
   listArticlesTool,
   getArticleTool,
+  createArticleTool,
 }
 
 export const tools: ToolDefinition[] = [
@@ -58,4 +60,5 @@ export const tools: ToolDefinition[] = [
   associateCategoriesTool,
   listArticlesTool,
   getArticleTool,
+  createArticleTool,
 ]
