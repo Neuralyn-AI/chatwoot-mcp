@@ -1,0 +1,44 @@
+{
+  "name": "chatwoot-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest run --project=unit",
+    "test:watch": "vitest --project=unit",
+    "test:integration": "vitest run --project=integration",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit"
+  },
+  "cloudflare": {
+    "bindings": {
+      "CHATWOOT_BASE_URL": {
+        "description": "Base URL of your Chatwoot instance (e.g. https://chat.example.com). Use https://app.chatwoot.com for Chatwoot Cloud."
+      },
+      "CHATWOOT_API_TOKEN": {
+        "description": "API access token for an agent/administrator (Profile → Access Tokens)."
+      },
+      "CHATWOOT_ACCOUNT_ID": {
+        "description": "Numeric account ID (visible in the URL after /app/accounts/)."
+      },
+      "MCP_AUTH_TOKEN": {
+        "description": "Bearer token that MCP clients (e.g. Claude Code) will send. Generate a strong random value."
+      }
+    }
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "hono": "^4.12.19",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.16.6",
+    "@cloudflare/workers-types": "^4.20260517.1",
+    "@types/node": "^25.8.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.6",
+    "wrangler": "^4.92.0"
+  }
+}
