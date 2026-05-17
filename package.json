@@ -10,7 +10,8 @@
     "test:watch": "vitest --project=unit",
     "test:integration": "vitest run --project=integration --passWithNoTests",
     "typecheck": "tsc --noEmit",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "investigate": "tsx"
   },
   "cloudflare": {
     "bindings": {
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260517.1",
     "@types/node": "^25.8.0",
+    "tsx": "^4.22.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.6",
     "wrangler": "^4.92.0"
