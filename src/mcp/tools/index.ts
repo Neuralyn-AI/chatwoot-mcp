@@ -6,6 +6,7 @@ import { getPortalLocalesTool } from './get-portal-locales'
 import { getPortalLogoTool } from './get-portal-logo'
 import { uploadPortalLogoTool } from './upload-portal-logo'
 import { removePortalLogoTool } from './remove-portal-logo'
+import { listCategoriesTool } from './list-categories'
 
 export interface ToolContext {
   chatwoot: ChatwootClient
@@ -22,6 +23,7 @@ export {
   getPortalLogoTool,
   uploadPortalLogoTool,
   removePortalLogoTool,
+  listCategoriesTool,
 }
 
 export const tools: ToolDefinition[] = [
@@ -31,4 +33,5 @@ export const tools: ToolDefinition[] = [
   getPortalLogoTool,
   uploadPortalLogoTool,
   removePortalLogoTool,
+  listCategoriesTool,
 ]
