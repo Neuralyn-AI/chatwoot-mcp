@@ -67,6 +67,7 @@ claude mcp add --transport http chatwoot \
 | `chatwoot_list_articles` | List articles in a portal, optionally filtered by locale and category. |
 | `chatwoot_get_article` | Fetch a single article by id with full content. |
 | `chatwoot_create_article` | Create a Help Center article in a single locale. |
+| `chatwoot_update_article` | Patch an article by id; updates only the fields you pass. |
 
 ## Development
 

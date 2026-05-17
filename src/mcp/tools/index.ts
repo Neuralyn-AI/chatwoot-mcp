@@ -16,6 +16,7 @@ import { associateCategoriesTool } from './associate-categories'
 import { listArticlesTool } from './list-articles'
 import { getArticleTool } from './get-article'
 import { createArticleTool } from './create-article'
+import { updateArticleTool } from './update-article'
 
 export interface ToolContext {
   chatwoot: ChatwootClient
@@ -42,6 +43,7 @@ export {
   listArticlesTool,
   getArticleTool,
   createArticleTool,
+  updateArticleTool,
 }
 
 export const tools: ToolDefinition[] = [
@@ -61,4 +63,5 @@ export const tools: ToolDefinition[] = [
   listArticlesTool,
   getArticleTool,
   createArticleTool,
+  updateArticleTool,
 ]
