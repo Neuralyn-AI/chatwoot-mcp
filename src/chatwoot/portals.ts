@@ -81,3 +81,30 @@ export async function createPortal(
   }
   return client.request<ChatwootPortalRaw>('/portals', { method: 'POST', body: payload })
 }
+
+// CONFIRM against ADR 0001 when investigation runs against real Chatwoot.
+const LOGO_FIELD = 'logo'
+
+export async function uploadPortalLogo(
+  client: ChatwootClient,
+  slug: string,
+  source: { blob: Blob; filename: string },
+): Promise<ChatwootPortalRaw> {
+  const fd = new FormData()
+  fd.append(LOGO_FIELD, source.blob, source.filename)
+  return client.request<ChatwootPortalRaw>(`/portals/${encodeURIComponent(slug)}`, {
+    method: 'PATCH',
+    body: fd,
+  })
+}
+
+export async function removePortalLogo(
+  client: ChatwootClient,
+  slug: string,
+): Promise<ChatwootPortalRaw> {
+  // CONFIRM against ADR 0001 when investigation runs against real Chatwoot.
+  return client.request<ChatwootPortalRaw>(`/portals/${encodeURIComponent(slug)}`, {
+    method: 'PATCH',
+    body: { portal: { logo: null } },
+  })
+}
