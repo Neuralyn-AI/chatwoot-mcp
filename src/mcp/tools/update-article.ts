@@ -27,7 +27,7 @@ const inputSchema = z.object({
 export const updateArticleTool = defineTool({
   name: 'chatwoot_update_article',
   description:
-    'Patch a Help Center article by id. Only the fields you pass are updated. Status is a string enum (draft|published|archived) mapped to Chatwoot\'s integer field. To link this article as a translation of another, pass associated_article_id.',
+    'Patch a Help Center article by id. Only the fields you pass are updated. Status is a string enum (draft|published|archived) mapped to Chatwoot\'s integer field. To link this article as a translation of another, pass associated_article_id. IMPORTANT: the content field must be in Markdown format — Chatwoot automatically converts it to HTML for display. Never send raw HTML.',
   inputSchema,
   async run(ctx, input) {
     const hasAnyPatch =

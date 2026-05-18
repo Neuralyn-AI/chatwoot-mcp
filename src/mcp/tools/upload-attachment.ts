@@ -24,7 +24,7 @@ function base64ToBytes(b64: string): Uint8Array {
 export const uploadAttachmentTool = defineTool({
   name: 'chatwoot_upload_attachment',
   description:
-    'Upload an image or file to Chatwoot via POST /api/v1/accounts/{a}/upload and return its public file_url and Active Storage blob_id. Embed file_url directly into article markdown to reference the asset. Provide either external_url (Chatwoot downloads it) or data_base64 + filename + content_type (caller supplies the bytes).',
+    'Upload an image or file to Chatwoot via POST /api/v1/accounts/{a}/upload and return its public file_url and Active Storage blob_id. Embed file_url directly into article markdown to reference the asset. Prefer external_url (Chatwoot downloads it server-side, no size limit on this end) over data_base64, which is constrained by the MCP message size and the Cloudflare Workers request body limit (~1 MB on free plan, 100 MB on paid). data_base64 also requires filename and content_type.',
   inputSchema,
   async run(ctx, input) {
     const hasUrl = !!input.external_url
