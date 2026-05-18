@@ -7,7 +7,7 @@ const STATUS_TO_INT = { draft: 0, published: 1, archived: 2 } as const
 export const createArticleTool = defineTool({
   name: 'chatwoot_create_article',
   description:
-    'Create a Help Center article in a single locale. The provided slug is a stem; the Chatwoot server prepends a timestamp prefix (e.g. "1700000000-getting-started") and returns the final slug. Status defaults to draft. Pass associated_article_id to link this article as a translation of an existing one.',
+    'Create a Help Center article in a single locale. The provided slug is a stem; the Chatwoot server prepends a timestamp prefix (e.g. "1700000000-getting-started") and returns the final slug. Status defaults to draft. Pass associated_article_id to link this article as a translation of an existing one. IMPORTANT: the content field must be in Markdown format — Chatwoot automatically converts it to HTML for display. Never send raw HTML.',
   inputSchema: z.object({
     portal_slug: z.string().min(1),
     category_id: z.number().int().positive(),
