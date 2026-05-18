@@ -3,7 +3,7 @@ import { bearerAuth } from './auth'
 import { ChatwootClient } from './chatwoot/client'
 import { validateEnv, type Env } from './env'
 import { createMcpServer } from './mcp/server'
-import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js'
+import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js'
 
 type Bindings = Env
 
@@ -38,6 +38,13 @@ app.get('/healthz', async (c) => {
 app.use('/mcp', bearerAuth)
 app.use('/mcp/*', bearerAuth)
 
+// SSE streaming is not supported in stateless JSON-response mode.
+// Returning 405 prevents the Worker from holding an open ReadableStream
+// indefinitely, which Cloudflare cancels as a "hung" Worker.
+app.get('/mcp', (c) =>
+  c.text('Method Not Allowed', 405, { Allow: 'POST' }),
+)
+
 app.all('/mcp', async (c) => {
   const env = validateEnv(c.env)
   const chatwoot = new ChatwootClient({
@@ -47,62 +54,13 @@ app.all('/mcp', async (c) => {
   })
   const server = createMcpServer({ chatwoot })
 
-  // Stateless: a new transport per request.
-  const transport = new StreamableHTTPServerTransport({
+  const transport = new WebStandardStreamableHTTPServerTransport({
     sessionIdGenerator: undefined,
     enableJsonResponse: true,
   })
   await server.connect(transport)
 
-  // Bridge Hono's Request to the SDK by collecting body and proxying through.
-  const req = c.req.raw
-  const body =
-    req.method === 'GET' || req.method === 'DELETE'
-      ? undefined
-      : await req.json().catch(() => undefined)
-
-  return await new Promise<Response>((resolve, reject) => {
-    const headers = new Headers()
-    let status = 200
-    const chunks: Uint8Array[] = []
-
-    const fakeRes = {
-      setHeader(name: string, value: string) {
-        headers.set(name, value)
-      },
-      writeHead(s: number, h?: Record<string, string>) {
-        status = s
-        if (h) for (const [k, v] of Object.entries(h)) headers.set(k, v)
-      },
-      write(chunk: string | Uint8Array) {
-        chunks.push(typeof chunk === 'string' ? new TextEncoder().encode(chunk) : chunk)
-      },
-      end(chunk?: string | Uint8Array) {
-        if (chunk) this.write(chunk)
-        const total = chunks.reduce((s, c) => s + c.length, 0)
-        const out = new Uint8Array(total)
-        let off = 0
-        for (const c of chunks) {
-          out.set(c, off)
-          off += c.length
-        }
-        resolve(new Response(out, { status, headers }))
-      },
-      on() {},
-    }
-
-    transport
-      .handleRequest(
-        {
-          method: req.method,
-          headers: Object.fromEntries(req.headers.entries()),
-          url: '/mcp',
-        } as any,
-        fakeRes as any,
-        body,
-      )
-      .catch(reject)
-  })
+  return transport.handleRequest(c.req.raw)
 })
 
 export default app
